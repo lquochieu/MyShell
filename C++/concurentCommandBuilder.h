@@ -27,8 +27,10 @@ string trim(string command) {
         else break;
     }
     string s = "";
-    for(int i = j + 1; i < k - 1; ++i)
-    return command;
+    for(int i = j + 1; i < k; ++i) {
+        s = s + command[i];
+    }
+    return s;
 }
 
 vector<string> createJobs(string command) {
