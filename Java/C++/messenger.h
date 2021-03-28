@@ -6,11 +6,11 @@
 using namespace std;
 
 void WELCOME() {
-    cout << "Welcome to the MyShell command line!";
+    cout << "Welcome to the MyShell command line!\n";
 } 
 
 void GOODBYE() {
-    cout << "Thank you for using the MyShell command line. Goodbye!";
+    cout << "Thank you for using the MyShell command line. Goodbye!\n";
 }
 
 void COMMAND_NOT_FOUND(string command) {
