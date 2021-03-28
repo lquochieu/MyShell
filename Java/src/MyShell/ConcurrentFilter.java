@@ -1,10 +1,8 @@
 package MyShell;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import javax.annotation.processing.Messager;
 
 
 public abstract class ConcurrentFilter extends Filter implements Runnable{
