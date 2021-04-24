@@ -11,6 +11,7 @@
 #include <thread>
 #include <chrono>
 #include "Binhlibrary.h"
+#include<ctime>
 
 using namespace std;
 
@@ -32,11 +33,19 @@ int main(){
             exit(0);
         }
         else if (command.compare("calc") == 0){
-            print("\"Hello\"");
-            openProcess("c:/windows/system32/calc.exe");
+            openProcess("C:\\windows\\system32\\calc.exe");
+        }
+        else if (command.compare("notepad") == 0){
+            openProcess("C:\\Windows\\notepad.exe");
         }
         else if (command.compare("dir") == 0){
             openProcess("D:/Projects/CPP Projects/Shell/.vscode/dir.exe");
+        }
+        else if (command.compare("time") == 0){
+            time();
+        }
+        else if (command.compare("clear") == 0){
+            system("cls");
         }
         else {
             printf("Illegal command!");

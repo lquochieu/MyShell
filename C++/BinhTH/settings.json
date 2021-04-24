@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "thread": "cpp"
+        "thread": "cpp",
+        "iostream": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
