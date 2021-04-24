@@ -1,37 +1,20 @@
 #include <windows.h>
-#include<bits/stdc++.h>
-#include <string>
-#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <bits/stdc++.h>
+#include <tlhelp32.h> 
 #include <vector>
-#include "concurentCommandBuilder.h"
+#include <tchar.h>
+#include <debugapi.h>
+#include <processthreadsapi.h>
 
 using namespace std;
-
-vector<string> createJobs(string command) {
-	vector<string> jobs;
-	string s = "";
-	int a = command.length();
-	for(int i = 0; i < a; ++i) {
-		if(command[i] != '>') {
-			s = s + command[i];
-		}
-		else {
-			jobs.push_back(s);
-			s = "";
-		}
-	}
-	jobs.push_back(s);
-	for(int i = 0; i <= jobs.size(); ++i) {
-		trim(jobs[i]);
-	}
-    return jobs;
+string Dir() {
+    char buffer[MAX_PATH];
+    GetModuleFileName( NULL, buffer, MAX_PATH );
+    string::size_type pos = string( buffer ).find_last_of( "\\/" );
+    return string( buffer ).substr( 0, pos);
 }
-
-int main() {
-	vector<string> job;
-	job = createJobs("hello > mina > san");
-	for(int i = 0; i < job.size(); ++i) {
-		cout << job[i] << endl;
-	}
+int main()  {
+	cout << Dir();
 }
-

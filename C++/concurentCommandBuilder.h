@@ -26,9 +26,26 @@ string trim(string command) {
         }
         else break;
     }
-    for(int i = j + 1; i <= k; ++i) {
-        command[i-j - 1] = command[i]; 
+    string s = "";
+    for(int i = j + 1; i < k; ++i) {
+        s = s + command[i];
     }
-    for(int i = k - j; i < g; ++i) command[i] = '\0';
-    return command;
+    return s;
+}
+
+vector<string> createJobs(string command) {
+	vector<string> jobs;
+	string s = "";
+	int a = command.length();
+	for(int i = 0; i < a; ++i) {
+		if(command[i] != '>') {
+			s = s + command[i];
+		}
+		else {
+			jobs.push_back(s);
+			s = "";
+		}
+	}
+	jobs.push_back(s);
+	return jobs;
 }
