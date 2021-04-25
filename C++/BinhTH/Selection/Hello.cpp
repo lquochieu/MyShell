@@ -39,7 +39,10 @@ int main(){
             openInBackOrFore("C:\\Windows\\notepad.exe");
         }
         else if (command.compare("dir") == 0){
-            openProcessInBackGround("D:/Projects/CPP Projects/NewShell/dir.exe");
+            dir();
+        }
+        else if (command.compare("cd ..") == 0){
+            chdir("..");
         }
         else if (command.compare("time") == 0){
             time();

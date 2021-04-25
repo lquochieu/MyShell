@@ -2,6 +2,9 @@
 #include <windows.h>
 #include <string>
 #include<ctime>
+#include <stdio.h>
+#include <limits.h>
+#include <unistd.h>
 using namespace std;
 
 void print(const string& s){
@@ -85,4 +88,10 @@ int time()
     sec_prev=seconds;
 
     }
+}
+
+void dir() {
+    char s[PATH_MAX];
+    // printing current working directory
+    printf("%s\n", getcwd(s, 100));
 }
