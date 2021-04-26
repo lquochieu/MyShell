@@ -10,7 +10,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
-#include "Binhlibrary.h"
+#include "Bibrary.h"
 #include<ctime>
 
 using namespace std;
@@ -33,13 +33,25 @@ int main(){
             exit(0);
         }
         else if (command.compare("calc") == 0){
-            openProcess("C:\\windows\\system32\\calc.exe");
+            openProcessInBackGround("C:\\windows\\system32\\calc.exe");
         }
         else if (command.compare("notepad") == 0){
-            openProcess("C:\\Windows\\notepad.exe");
+            openInBackOrFore("C:\\Windows\\notepad.exe");
         }
         else if (command.compare("dir") == 0){
-            openProcess("D:/Projects/CPP Projects/Shell/.vscode/dir.exe");
+            dir();
+        }
+        else if (command.rfind("cd ") == 0){
+            string temp = command.substr(3);
+            if (temp.compare("..") == 0){
+                chdir("..");
+            }
+            else{
+                cd(temp);
+            }
+        }
+        else if (command.compare("list") == 0){
+            listOfCurrent();
         }
         else if (command.compare("time") == 0){
             time();
