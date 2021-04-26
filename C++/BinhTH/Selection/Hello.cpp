@@ -10,7 +10,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
-#include "Binhlibrary.h"
+#include "Bibrary.h"
 #include<ctime>
 
 using namespace std;
@@ -41,8 +41,17 @@ int main(){
         else if (command.compare("dir") == 0){
             dir();
         }
-        else if (command.compare("cd ..") == 0){
-            chdir("..");
+        else if (command.rfind("cd ") == 0){
+            string temp = command.substr(3);
+            if (temp.compare("..") == 0){
+                chdir("..");
+            }
+            else{
+                cd(temp);
+            }
+        }
+        else if (command.compare("list") == 0){
+            listOfCurrent();
         }
         else if (command.compare("time") == 0){
             time();

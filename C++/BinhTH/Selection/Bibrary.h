@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <limits.h>
 #include <unistd.h>
+#include <direct.h>
+#include <errno.h>
 using namespace std;
 
 void print(const string& s){
@@ -47,7 +49,22 @@ void openProcessInBackGround(const string& s){
     ZeroMemory(&si, sizeof(si));    // fill this block with zeros
     si.cb = sizeof(si);
     LPSTR cString = strdup( s.c_str() );
-    CreateProcess(cString,NULL,NULL,NULL,FALSE,CREATE_NEW_CONSOLE,NULL,NULL,&si,&pi);
+    //CreateProcess(cString,NULL,NULL,NULL,FALSE,CREATE_NEW_CONSOLE,NULL,NULL,&si,&pi);
+    if( !CreateProcess( cString,   // No module name (use command line)
+        NULL,        // Command line
+        NULL,           // Process handle not inheritable
+        NULL,           // Thread handle not inheritable
+        FALSE,          // Set handle inheritance to FALSE
+        CREATE_NEW_CONSOLE,              
+        NULL,           // Use parent's environment block
+        NULL,           // Use parent's starting directory 
+        &si,            // Pointer to STARTUPINFO structure
+        &pi )           // Pointer to PROCESS_INFORMATION structure
+    ) 
+    {
+        printf("Changing of directory or opening file not successful!\n");
+        return;
+    }
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
 }
@@ -90,8 +107,58 @@ int time()
     }
 }
 
-void dir() {
-    char s[PATH_MAX];
-    // printing current working directory
-    printf("%s\n", getcwd(s, 100));
+void dir()
+{
+   char* buffer;
+
+   // Get the current working directory:
+   if ( (buffer = _getcwd( NULL, 0 )) == NULL )
+      perror( "_getcwd error" );
+   else
+   {
+      printf( "%s ", buffer );
+      free(buffer);
+   }
+}
+
+void listOfCurrent()
+{
+    char* buffer;
+
+   // Get the current working directory:
+   if ( (buffer = _getcwd( NULL, 0 )) == NULL )
+      perror( "_getcwd error" );
+   else
+   {
+      printf( "%s \n", buffer );
+   }
+   if(_chdir( buffer ) )
+   {
+      switch (errno)
+      {
+      case ENOENT:
+         printf( "Unable to locate the directory: %s\n", buffer );
+         break;
+      case EINVAL:
+         printf( "Invalid buffer.\n");
+         break;
+      default:
+         printf( "Unknown error.\n");
+      }
+   }
+   else
+      system( "dir ");
+}
+
+void cd(string s)
+{
+    LPSTR cString = strdup( s.c_str() );
+    //pass your path in the function
+    int ch=chdir(cString);
+    /*if the change of directory was successful it will print successful otherwise it will print not successful*/
+    if(ch < 0){
+        openProcessInBackGround(cString);
+    }
+    else
+    printf("chdir change of directory successful!");
 }
