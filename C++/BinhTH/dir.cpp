@@ -11,6 +11,7 @@ int main() {
        return 1;
    }
    system("pause");
+   system("dir ");
    return 0;
 }
 
