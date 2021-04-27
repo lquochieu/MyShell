@@ -100,7 +100,7 @@ int main()
     string command;
     while (true)
     {
-        dir();
+        
         cout << "> ";
         getline(cin, command);
         trim(command);

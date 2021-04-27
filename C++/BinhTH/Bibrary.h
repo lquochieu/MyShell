@@ -21,17 +21,17 @@ void print(const string &s)
 }
 void help() {
     // Display all commands
-    printf("For more information on a specific command, type HELP command-name\n");
-    printf("kill                 Kill or stop all running processes\n");
-    printf("kill 'ID'            Kill or stop a running process\n");
-    printf("date                 Displays or sets the date\n");
-    printf("calc                 Open system calculator\n");
-    printf("list                 Displays list of commands\n");
-    printf("help                 Provides Help information for Windows commands\n");
-    printf("cls	             Clear tiny shell\n");
-    printf("cd 'path'            Change current directory to this path\n");
-    printf("cd ..                Change parrent directory of current directory\n");
-    printf("exit                 Exit process\n\n");
+    cout << "For more information on a specific command, type HELP command-name\n";
+    cout.width(20); cout << left << "kill" << "Kill or stop all running processes\n";
+    cout.width(20); cout << left << "kill 'ID'" << "Kill or stop a running process\n";
+    cout.width(20); cout << left << "date " << "Displays or sets the date\n";
+    cout.width(20); cout << left << "calc" << "Open system calculator\n";
+    cout.width(20); cout << left << "list" << "Displays list of commands\n";
+    cout.width(20); cout << left << "help" << "Provides Help information for Windows commands\n";
+    cout.width(20); cout << left << "cls" << "Clear tiny shell\n";
+    cout.width(20); cout << left << "cd 'path'" << "Change current directory to this path\n";
+    cout.width(20); cout << left << "cd .." << "Change parrent directory of current directory\n";
+    cout.width(20); cout << left << "exit" << "Exit process\n\n";
 }
 void kill(string s) {
     int id = atoi(s.c_str());
@@ -119,7 +119,7 @@ void openProcessInBackGround(const string &s)
                        &pi[n]) // Pointer to PROCESS_INFORMATION structure
     )
     {
-        printf("Changing of directory or opening file not successful!\n");
+        printf("Changing of directory or openingo file not successful!\n");
         return;
     }
     CloseHandle(pi[n].hThread);
