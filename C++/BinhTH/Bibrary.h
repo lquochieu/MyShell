@@ -22,7 +22,7 @@ void print(const string &s)
 void help() {
     // Display all commands
     cout << "For more information on a specific command, type HELP command-name\n";
-    cout.width(20); cout << left << "kill" << "Kill or stop all running processes\n";
+    cout.width(20); cout << left << "kill -1" << "Kill or stop all running processes\n";
     cout.width(20); cout << left << "kill 'ID'" << "Kill or stop a running process\n";
     cout.width(20); cout << left << "date " << "Displays or sets the date\n";
     cout.width(20); cout << left << "calc" << "Open system calculator\n";
@@ -44,12 +44,12 @@ void kill(string s) {
             CloseHandle(pi[i].hThread);
             printf("Process %s killed\n", cString[i]);
             for(int j = i; j <n; ++j) {
-                n--;
+              
                 pi[j] = pi[j+1];
                 si[j] = si[j+1];
-                cString[j] = cString[j+1];
-                
+                cString[j] = cString[j+1];    
             }
+            n--;
             a = 0;
             break;
         }
@@ -86,15 +86,19 @@ void openInBackOrFore(const string &s)
 
 void openProcessInForeGround(const string &s)
 {
-    ++n;
-    si[n] = {sizeof(STARTUPINFO)}; // lpStartupInfo    // lpProcessInformation
+
+    PROCESS_INFORMATION pi;
+    STARTUPINFO si = {sizeof(STARTUPINFO)}; // lpStartupInfo    // lpProcessInformation
     // cpp string must be modified to use in c
-    cString[n] = strdup(s.c_str());
-    ZeroMemory(&si[n], sizeof(si[n])); // fill this block with zeros
-    si[n].cb = sizeof(si[n]);
-    CreateProcess(cString[n], NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si[n], &pi[n]);
-    WaitForSingleObject(pi[n].hProcess, INFINITE); // INFINITE
+    LPSTR cString = strdup(s.c_str());
+    ZeroMemory(&si, sizeof(si)); // fill this block with zeros
+    si.cb = sizeof(si);
+    CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    WaitForSingleObject(pi.hProcess, INFINITE); // INFINITE
     // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
+    TerminateProcess(pi.hProcess, 1);
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
 }
 
 void openProcessInBackGround(const string &s)

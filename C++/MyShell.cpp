@@ -37,6 +37,11 @@ void runable(string command)
         print("Hello\n");
         openInBackOrFore("c:/windows/system32/calc.exe");
     }
+    else if (command.compare("notepad") == 0)
+    {
+        print("Hello\n");
+        openInBackOrFore("c:/windows/system32/notepad.exe");
+    }
     else if (command.compare("dir") == 0)
     {
         listOfCurrent();
@@ -65,7 +70,7 @@ void runable(string command)
     }
     else if (command.length() > 4 && command[0] == 'k' && command[1] == 'i' && command[2] == 'l' & command[3] == 'l')
     {
-        if (command.length() == 5 && command[5] == '1')
+        if (command.length() == 7 && command[5] == '-' && command[6] == '1')
         {
             kill_All();
         }
