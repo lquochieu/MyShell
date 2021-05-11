@@ -14,7 +14,7 @@ PROCESS_INFORMATION pi[100];
 STARTUPINFO si[100];
 LPSTR cString[100];
 int n = 0;
-vector<string> nameProcess;
+//vector<string> nameProcess;
 void print(const string &s)
 {
     cout << s;
@@ -42,8 +42,8 @@ void kill(string s) {
     for(int i = 1; i <= n; ++i) {
         if(pi[i].dwProcessId == id) {
             TerminateProcess(pi[i].hProcess, 1);
-            CloseHandle(pi[i].hProcess);
-            CloseHandle(pi[i].hThread);
+            //CloseHandle(pi[i].hProcess);
+            //CloseHandle(pi[i].hThread);
             printf("Process %s killed\n", cString[i]);
             for(int j = i; j <n; ++j) {
               
@@ -64,8 +64,8 @@ void kill(string s) {
 void kill_All() {
     for(int i = 1; i <= n; ++i) {
         TerminateProcess(pi[i].hProcess, 1);
-        CloseHandle(pi[i].hProcess);
-        CloseHandle(pi[i].hThread);
+        //CloseHandle(pi[i].hProcess);
+        //CloseHandle(pi[i].hThread);
     }
     printf("All process killed ...\n");
     n = 0;
@@ -142,9 +142,12 @@ void openProcessInBackGround(const string &s)
                        &pi[n]) // Pointer to PROCESS_INFORMATION structure
     )
     {
+        --n;
         printf("Changing of directory or opening file not successful!\n");
         return;
     }
+    
+    
     CloseHandle(pi[n].hThread);
     CloseHandle(pi[n].hProcess);
 }
