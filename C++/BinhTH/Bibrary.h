@@ -1,15 +1,15 @@
 #include <iostream>
 #include <windows.h>
 #include <string>
-#include <ctime>
+#include<ctime>
 #include <stdio.h>
 #include <limits.h>
 #include <unistd.h>
 #include <direct.h>
 #include <errno.h>
-#include <vector>
 
 using namespace std;
+
 PROCESS_INFORMATION pi[100];
 STARTUPINFO si[100];
 LPSTR cString[100];
@@ -19,6 +19,7 @@ void print(const string &s)
 {
     cout << s;
 }
+
 void help() {
     // Display all commands
     cout << "For more information on a specific command, type HELP command-name\n";
@@ -33,6 +34,7 @@ void help() {
     cout.width(20); cout << left << "cd .." << "Change parrent directory of current directory\n";
     cout.width(20); cout << left << "exit" << "Exit process\n\n";
 }
+
 void kill(string s) {
     int id = atoi(s.c_str());
 
@@ -58,6 +60,7 @@ void kill(string s) {
         printf("Can't find process with this id = %d\n", id);
     }
 }
+
 void kill_All() {
     for(int i = 1; i <= n; ++i) {
         TerminateProcess(pi[i].hProcess, 1);
@@ -67,6 +70,7 @@ void kill_All() {
     printf("All process killed ...\n");
     n = 0;
 }
+
 void openInBackOrFore(const string &s)
 {
     void openProcessInForeGround(const string &s);
@@ -130,86 +134,98 @@ void openProcessInBackGround(const string &s)
     CloseHandle(pi[n].hProcess);
 }
 
-int time1()
+
+void time()
 {
-    int sec_prev = 0;
-    while (1)
+    int sec_prev=0; 
+    while(1)
     {
         int seconds, minutes, hours;
         string str;
 
         //storing total seconds
-        time_t total_seconds = time(0);
+        time_t total_seconds=time(0);
 
         //getting values of seconds, minutes and hours
-        struct tm *ct = localtime(&total_seconds);
+        struct tm* ct = localtime(&total_seconds);
 
-        seconds = ct->tm_sec;
-        minutes = ct->tm_min;
-        hours = ct->tm_hour;
+        seconds=ct->tm_sec;
+        minutes=ct->tm_min;
+        hours=ct->tm_hour;
 
         //converting it into 12 hour format
-        if (hours >= 12)
-            str = "PM";
+        /*if(hours>=12)
+            str="PM";
         else
-            str = "AM";
-        hours = hours > 12 ? hours - 12 : hours;
+            str="AM";
+        hours=hours>12?hours-12:hours;  */
+
 
         //printing the result
-        if (seconds == sec_prev + 1 || (sec_prev == 59 && seconds == 0))
+        if(seconds==sec_prev+1 || (sec_prev==59 && seconds==0))
         {
             cout << '\r';
-            cout << (hours < 10 ? "0" : "") << hours << ":" << (minutes < 10 ? "0" : "") << minutes << ":" << (seconds < 10 ? "0" : "") << seconds << " " << str;
+            cout<< (hours<10?"0":"") << hours <<":" << (minutes<10?"0":"") << minutes << ":" << (seconds<10?"0":"") << seconds << " " << str;
         }
 
-        sec_prev = seconds;
+        sec_prev=seconds;
+
     }
 }
 
+/*void time1(){
+    HANDLE h1;   
+    DWORD ThreadId;
+    h1 = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)time, NULL, 0, &ThreadId);
+    cin.get();
+    TerminateThread(h1, 0);
+    CloseHandle(h1);
+
+}*/
+
 void dir()
 {
-    char *buffer;
+   char* buffer;
 
-    // Get the current working directory:
-    if ((buffer = _getcwd(NULL, 0)) == NULL)
-        perror("_getcwd error");
-    else
-    {
-        printf("%s ", buffer);
-        free(buffer);
-    }
+   // Get the current working directory:
+   if ( (buffer = _getcwd( NULL, 0 )) == NULL )
+      perror( "_getcwd error" );
+   else
+   {
+      printf( "%s ", buffer );
+      free(buffer);
+   }
 }
 
 void listOfCurrent()
 {
-    char *buffer;
+    char* buffer;
 
-    // Get the current working directory:
-    if ((buffer = _getcwd(NULL, 0)) == NULL)
-        perror("_getcwd error");
-    else
-    {
-        printf("%s \n", buffer);
-    }
-    if (!_chdir(buffer))
-    {
-        switch (errno)
-        {
-        case ENOENT:
-            printf("Unable to locate the directory: %s\n", buffer);
-            break;
-        case EINVAL:
-            printf("Invalid buffer.\n");
-            break;
+   // Get the current working directory:
+   if ( (buffer = _getcwd( NULL, 0 )) == NULL )
+      perror( "_getcwd error" );
+   else
+   {
+      printf( "%s \n", buffer );
+   }
+   if(_chdir( buffer ) )
+   {
+      switch (errno)
+      {
+      case ENOENT:
+         printf( "Unable to locate the directory: %s\n", buffer );
+         break;
+      case EINVAL:
+         printf( "Invalid buffer.\n");
+         break;
         default:
-            printf("Unknown error.\n");
-        }
-    }
-    else
-    {
-        system("dir ");
-    }
+         printf( "Unknown error.\n");
+      }
+   }
+   else
+      system( "dir ");
 }
+
 void list1()
 { //Track running process
     printf("\n");
@@ -222,14 +238,16 @@ void list1()
     printf("----------------------------------------------------------------------------------------------------\n");
     printf("\n");
 }
+
 void cd(string s)
 {
-    LPSTR cString = strdup(s.c_str());
+    LPSTR cString = strdup( s.c_str() );
     //pass your path in the function
-    int ch = chdir(cString);
+    int ch=chdir(cString);
     /*if the change of directory was successful it will print successful otherwise it will print not successful*/
-    if (ch < 0)
-    {
+    if(ch < 0){
         openProcessInBackGround(cString);
     }
+    else
+    printf("chdir change of directory successful!");
 }
