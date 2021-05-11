@@ -161,6 +161,16 @@ void date()
     while(1){
         int seconds, minutes, hours;
         int days, months, years;
+        int weekdays;
+        string wday[] = {            
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        };
         string str;
 
         //storing total seconds
@@ -175,6 +185,7 @@ void date()
         days = ct->tm_mday;
         months = ct->tm_mon + 1;
         years = ct ->tm_year + 1900;    //in struct ct, tm_year beginning at 1900
+        weekdays = ct->tm_wday; //beginning at Sunday
 
         //converting it into 12 hour format
         if(hours>=12)
@@ -187,6 +198,7 @@ void date()
         if(seconds==sec_prev+1 || (sec_prev==59 && seconds==0))
         {
             cout << '\r';
+            cout << wday[weekdays] << " ";
             cout<< (hours<10?"0":"") << hours <<":" << (minutes<10?"0":"") << minutes << ":" << (seconds<10?"0":"") << seconds << " " << str;
             cout<<'\t' <<(days<10?"0":"") << days <<"/" << (months<10?"0":"") << months << "/" << (years<10?"0":"") << years;
         }
