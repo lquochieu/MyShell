@@ -97,12 +97,27 @@ void openProcessInForeGround(const string &s)
     LPSTR cString = strdup(s.c_str());
     ZeroMemory(&si, sizeof(si)); // fill this block with zeros
     si.cb = sizeof(si);
-    CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    //CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    if (!CreateProcess(cString, // No module name (use command line)
+                       NULL,       // Command line
+                       NULL,       // Process handle not inheritable
+                       NULL,       // Thread handle not inheritable
+                       TRUE,       // Set handle inheritance to FALSE
+                       CREATE_NEW_CONSOLE,
+                       NULL,   // Use parent's environment block
+                       NULL,   // Use parent's starting directory
+                       &si, // Pointer to STARTUPINFO structure
+                       &pi) // Pointer to PROCESS_INFORMATION structure
+    )
+    {
+        printf("Changing of directory or opening file not successful!\n");
+        return;
+    }
     WaitForSingleObject(pi.hProcess, INFINITE); // INFINITE
     // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
     TerminateProcess(pi.hProcess, 1);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
 }
 
 void openProcessInBackGround(const string &s)
@@ -127,7 +142,7 @@ void openProcessInBackGround(const string &s)
                        &pi[n]) // Pointer to PROCESS_INFORMATION structure
     )
     {
-        printf("Changing of directory or openingo file not successful!\n");
+        printf("Changing of directory or opening file not successful!\n");
         return;
     }
     CloseHandle(pi[n].hThread);
@@ -246,8 +261,8 @@ void cd(string s)
     int ch=chdir(cString);
     /*if the change of directory was successful it will print successful otherwise it will print not successful*/
     if(ch < 0){
-        openProcessInBackGround(cString);
+        openInBackOrFore(cString);
     }
     else
-    printf("chdir change of directory successful!");
+        printf("chdir change of directory successful!");
 }
