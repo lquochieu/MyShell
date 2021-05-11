@@ -17,8 +17,10 @@ using namespace std;
 
 #define MAX_NAME_LEN 20
 
+
 int main(){
     string command;
+    void time1();
 
     while(true){
         cout << endl;
@@ -46,16 +48,42 @@ int main(){
             if (temp.compare("..") == 0){
                 chdir("..");
             }
+            else if (temp.compare("-l") == 0){
+                listOfCurrent();
+            }
             else{
                 cd(temp);
             }
         }
+        else if (command.length() > 4 && command[0] == 'k' && command[1] == 'i' && command[2] == 'l' & command[3] == 'l')
+        {
+            if (command.length() == 7 && command[5] == '-' && command[6] == '1')
+            {
+                kill_All();
+            }
+            else
+            {
+                string s = "";
+                for (int i = 4; i <= command.length(); ++i)
+                {
+                    s += command[i];
+                }
+                kill(s);
+            }
+        }
         else if (command.compare("list") == 0){
-            listOfCurrent();
+            list1();
         }
+
         else if (command.compare("time") == 0){
-            time();
+            HANDLE h1;   
+            DWORD ThreadId;
+            h1 = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)time1, NULL, 0, &ThreadId);
+            cin.get();
+            TerminateThread(h1, 0);
+            CloseHandle(h1);
         }
+
         else if (command.compare("clear") == 0){
             system("cls");
         }
@@ -67,9 +95,44 @@ int main(){
 
     }
 
-
-
-
     cout << endl;
     system("pause");
+}
+
+void time1()
+{
+    int sec_prev=0; 
+    while(1)
+    {
+        int seconds, minutes, hours;
+        string str;
+
+        //storing total seconds
+        time_t total_seconds=time(0);
+
+        //getting values of seconds, minutes and hours
+        struct tm* ct = localtime(&total_seconds);
+
+        seconds=ct->tm_sec;
+        minutes=ct->tm_min;
+        hours=ct->tm_hour;
+
+        //converting it into 12 hour format
+        /*if(hours>=12)
+            str="PM";
+        else
+            str="AM";
+        hours=hours>12?hours-12:hours;  */
+
+
+        //printing the result
+        if(seconds==sec_prev+1 || (sec_prev==59 && seconds==0))
+        {
+            cout << '\r';
+            cout<< (hours<10?"0":"") << hours <<":" << (minutes<10?"0":"") << minutes << ":" << (seconds<10?"0":"") << seconds << " " << str;
+        }
+
+        sec_prev=seconds;
+
+    }
 }
