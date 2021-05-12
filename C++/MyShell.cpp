@@ -48,7 +48,7 @@ void runable(string command)
     }
     else if (command.compare("date") == 0)
     {
-        time1();
+        time();
     }
     else if (command.compare("list") == 0)
     {
@@ -83,6 +83,22 @@ void runable(string command)
             }
             kill(s);
         }
+    }
+    else if (command.length() > 4 && command[0] == 's' && command[1] == 't' && command[2] == 'o' & command[3] == 'p') {
+        string s = "";
+            for (int i = 4; i <= command.length(); ++i)
+            {
+                s += command[i];
+            }
+            stop(s);
+    }
+    else if (command.length() > 6 && command[0] == 'r' && command[1] == 'e' && command[2] == 's' & command[3] == 'u' && command[4] == 'm' && command[5] == 'e') {
+        string s = "";
+            for (int i = 6; i <= command.length(); ++i)
+            {
+                s += command[i];
+            }
+            resume(s);
     }
     else
     {
