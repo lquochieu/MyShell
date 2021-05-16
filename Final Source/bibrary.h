@@ -394,12 +394,12 @@ void runBat(string s)
 
 void runExe(string command)
 {
-	void openProcessInForeGround(const string &s);
+    void openProcessInForeGround(const string &s);
     void openProcessInBackGround(const string &s);
-	stringstream cc(command);
+    stringstream cc(command);
     string c1, c2;
     cc >> c1;
-   	cc >> c2;
+    cc >> c2;
     if (c2.compare("background") == 0)
     {
         openProcessInBackGround(c1);
@@ -411,5 +411,5 @@ void runExe(string command)
     else 
     {
     	printf("Illegal command! Add backgound or foreground mode!\n");
-	}
+    }
 }
