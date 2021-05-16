@@ -206,11 +206,11 @@ void openInBackOrFore(const string &command, const string &s)
 void openProcessInForeGround(const string &s)
 {
 
-    PROCESS_INFORMATION pi;											// lpStartupInfo    // lpProcessInformation
-    STARTUPINFO si = {sizeof(STARTUPINFO)}; 						// cpp string must be modified to use in c
+    PROCESS_INFORMATION pi;										// lpStartupInfo    // lpProcessInformation
+    STARTUPINFO si = {sizeof(STARTUPINFO)}; 								// cpp string must be modified to use in c
     LPSTR cString = strdup(s.c_str());
     ZeroMemory(&si, sizeof(si)); 									// fill this block with zeros
-    si.cb = sizeof(si);												// CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    si.cb = sizeof(si);											// CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
     if (!CreateProcess(cString, 									// No module name (use command line)
                        NULL,    									// Command line
                        NULL,    									// Process handle not inheritable
@@ -226,7 +226,7 @@ void openProcessInForeGround(const string &s)
         printf("Changing of directory or opening file not successful!\n");
         return;
     }
-    WaitForSingleObject(pi.hProcess, INFINITE); 					// INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
+    WaitForSingleObject(pi.hProcess, INFINITE); 							// INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
 }
@@ -236,21 +236,21 @@ void openProcessInBackGround(const string &s)
 	void kill(string s);
     ++n;
     status[n] = 1;
-    si[n] = {sizeof(STARTUPINFO)}; 										// lpStartupInfo // lpProcessInformation
-    pi[n];                         										// cpp string must be modified to use in c
+    si[n] = {sizeof(STARTUPINFO)}; 									// lpStartupInfo // lpProcessInformation
+    pi[n];                         									// cpp string must be modified to use in c
     ZeroMemory(&si[n], sizeof(si[n])); 									// fill this block with zeros
     si[n].cb = sizeof(si[n]);
-    cString[n] = strdup(s.c_str());										// CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-    if (!CreateProcess(cString[n], 										// No module name (use command line)
-                       NULL,       										// Command line
-                       NULL,       										// Process handle not inheritable
-                       NULL,       										// Thread handle not inheritable
-                       FALSE,      										// Set handle inheritance to FALSE
+    cString[n] = strdup(s.c_str());									// CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    if (!CreateProcess(cString[n], 									// No module name (use command line)
+                       NULL,       									// Command line
+                       NULL,       									// Process handle not inheritable
+                       NULL,       									// Thread handle not inheritable
+                       FALSE,      									// Set handle inheritance to FALSE
                        CREATE_NEW_CONSOLE,
-                       NULL,   											// Use parent's environment block
-                       NULL,   											// Use parent's starting directory
-                       &si[n], 											// Pointer to STARTUPINFO structure
-                       &pi[n]) 											// Pointer to PROCESS_INFORMATION structure
+                       NULL,   										// Use parent's environment block
+                       NULL,   										// Use parent's starting directory
+                       &si[n], 										// Pointer to STARTUPINFO structure
+                       &pi[n]) 										// Pointer to PROCESS_INFORMATION structure
     )
     {
     	TerminateProcess(pi[n].hProcess, 0);
@@ -362,7 +362,7 @@ void list1()
 
 void cd(string s)
 {
-    LPSTR cString = strdup(s.c_str());                  // pass your path in the function
+    LPSTR cString = strdup(s.c_str());                  			// pass your path in the function
     int ch = chdir(cString);							// if the change of directory was successful it will print successful otherwise it will print not successful
     if (ch < 0)
     {
