@@ -49,7 +49,10 @@ void help()
          << "Display list of processes\n";  
     cout.width(20);
     cout << left << "date"
-         << "Display or set the date\n";
+         << "Display date\n";
+    cout.width(20);
+    cout << left << "time"
+         << "Display time\n";
     cout.width(20);
     cout << left << "notepad"
          << "Open system notepad, add foreground or background mode, ex: notepad background\n";
