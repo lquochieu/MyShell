@@ -39,7 +39,7 @@ void runable(string command)
         exit(0);
     }
 
-    else if (command[0] == 'n' && command[1] == 'o' && command[2] == 't' & command[3] == 'e' && command[4] == 'p' && command[5] == 'a' && command[6] == 'd' && command[7] == ' ')
+    else if (command.compare("notepad back") == 0 || command.compare("notepad fore") == 0)
     {
         print("Hello, notepad is running\n");
         openInBackOrFore(command, "c:/windows/system32/notepad.exe");
@@ -50,13 +50,8 @@ void runable(string command)
         listOfCurrent();
     }
 
-    else if (command.compare("date") == 0){
-            HANDLE h1;   
-            DWORD ThreadId;
-            h1 = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)date, NULL, 0, &ThreadId);
-            cin.get();
-            TerminateThread(h1, 0);
-            CloseHandle(h1);
+    else if (command.compare("clock") == 0){
+            time();
     }
 
     else if (command.compare("time") == 0){
@@ -68,10 +63,10 @@ void runable(string command)
             CloseHandle(h1);
         }
 
-	else if (command[0] == 'c' && command[1] == 'o' && command[2] == 'u' & command[3] == 'n' && command[4] == 't' && command[5] == 'd' && command[6] == 'o' && command[7] == 'w' && command[8] == 'n' && command[9] == ' ')
+	else if (command.compare("countdown fore") == 0 || command.compare("countdown back") == 0)
     {
-        print("Hello, countdown clock is running\n");
-        openInBackOrFore(command, "countDownClock.exe");
+            print("Hello, countdown clock is running\n");
+            openInBackOrFore(command, "countDownClock.exe");
     }
 
     else if (command.compare("list") == 0)

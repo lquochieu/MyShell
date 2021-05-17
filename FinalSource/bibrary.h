@@ -27,8 +27,32 @@ void print(const string &s)
 void help()
 {
     // Display all commands
-    
+
     cout << "For more information on a specific command, type help command-name\n";
+    cout.width(20);
+    cout << left << "[*.bat]"
+         << "Read *.bat file and run list of command lines\n";
+    cout.width(20);
+    cout << left << "cd .."
+         << "Change to the parrent directory of the current directory\n";
+    cout.width(20);
+    cout << left << "cd 'path'"
+         << "Change current directory to this path\n";
+    cout.width(20);
+    cout << left << "clear"
+         << "Clear tiny shell\n";
+    cout.width(20);
+    cout << left << "clock"
+         << "Display clock\n";
+    cout.width(20);
+    cout << left << "countdown"
+         << "Display countdown clock, add foreground or background mode\n";
+    cout.width(20);
+    cout << left << "dir"
+         << "Display list of files in parent directory\n";
+    cout.width(20);
+    cout << left << "exit"
+         << "Exit process\n";
     cout.width(20);
     cout << left << "help"
          << "Provide Help information for Windows commands\n";
@@ -39,47 +63,23 @@ void help()
     cout << left << "kill 'ID'"
          << "Kill a running process\n";
     cout.width(20);
-    cout << left << "stop 'ID'"
-         << "Stop a running process\n";
-    cout.width(20);
-    cout << left << "resume 'ID'"
-         << "Resume a stopping process\n";   
-    cout.width(20);
     cout << left << "list"
-         << "Display list of processes\n";  
-    cout.width(20);
-    cout << left << "date"
-         << "Display date\n";
-    cout.width(20);
-    cout << left << "time"
-         << "Display time\n";
+         << "Display list of processes\n";
     cout.width(20);
     cout << left << "notepad"
          << "Open system notepad, add foreground or background mode, ex: notepad background\n";
     cout.width(20);
-    cout << left << "countdown"
-         << "Display countdown clock, add foreground or background mode\n";
-    cout.width(20);
     cout << left << "path of *.exe"
          << "Run *.exe file, add foreground or background mode\n";
     cout.width(20);
-    cout << left << "[*.bat]"
-         << "Read *.bat file and run list of command lines\n";
+    cout << left << "resume 'ID'"
+         << "Resume a stopping process\n";
     cout.width(20);
-    cout << left << "dir"
-         << "Display list of files in parent directory\n";
+    cout << left << "stop 'ID'"
+         << "Stop a running process\n";
     cout.width(20);
-    cout << left << "cd 'path'"
-         << "Change current directory to this path\n";
-    cout.width(20);
-    cout << left << "cd .."
-         << "Change to the parrent directory of the current directory\n";
-    cout.width(20);
-    cout << left << "exit"
-         << "Exit process\n";
-    cout.width(20);
-    cout << left << "clear"
-         << "Clear tiny shell\n";
+    cout << left << "time"
+         << "Display time\n";
 }
 
 void kill(string s)
@@ -136,13 +136,13 @@ void stop(string s)
     {
         if (pi[i].dwProcessId == id)
         {
-        	a = 0;
+            a = 0;
             if (status[i] == 1)
             {
-            	status[i] = 0;
-            	cout << "Stop " << cString[i] << " success\n";
-            	SuspendThread(pi[i].hThread);
-            	break;
+                status[i] = 0;
+                cout << "Stop " << cString[i] << " success\n";
+                SuspendThread(pi[i].hThread);
+                break;
             }
             else
             {
@@ -162,21 +162,21 @@ void resume(string s)
     int a = 1;
     for (int i = 1; i <= n; ++i)
     {
-    	if (pi[i].dwProcessId == id)
-    	{
-    		a = 0;
-	        if (status[i] == 0)
-	        {	
-	        	status[i] = 1;
-	        	cout << "Process " << cString[i] << " is running again\n";
-	            ResumeThread(pi[i].hThread);
-	            break;
-	        }
-	        else
-	        {
-	            cout << "Process " << cString[i] << " is still running" << endl;
-	            break;
-	        }
+        if (pi[i].dwProcessId == id)
+        {
+            a = 0;
+            if (status[i] == 0)
+            {
+                status[i] = 1;
+                cout << "Process " << cString[i] << " is running again\n";
+                ResumeThread(pi[i].hThread);
+                break;
+            }
+            else
+            {
+                cout << "Process " << cString[i] << " is still running" << endl;
+                break;
+            }
         }
     }
     if (a)
@@ -188,75 +188,75 @@ void openInBackOrFore(const string &command, const string &s)
 {
     void openProcessInForeGround(const string &s);
     void openProcessInBackGround(const string &s);
-	stringstream cc(command);
+    stringstream cc(command);
     string c1, c2;
     cc >> c1;
-   	cc >> c2;
-    if (c2.compare("background") == 0)
+    cc >> c2;
+    if (c2.compare("back") == 0)
     {
         openProcessInBackGround(s);
     }
-    else if (c2.compare("foreground") == 0)
+    else if (c2.compare("fore") == 0)
     {
         openProcessInForeGround(s);
     }
-    else 
+    else
     {
-    	printf("Illegal command! Add backgound or foreground mode!\n");
-	}
+        printf("Illegal command! Add backgound or foreground mode!\n");
+    }
 }
 
 void openProcessInForeGround(const string &s)
 {
 
-    PROCESS_INFORMATION pi;										// lpStartupInfo    // lpProcessInformation
-    STARTUPINFO si = {sizeof(STARTUPINFO)}; 								// cpp string must be modified to use in c
+    PROCESS_INFORMATION pi;                 // lpStartupInfo    // lpProcessInformation
+    STARTUPINFO si = {sizeof(STARTUPINFO)}; // cpp string must be modified to use in c
     LPSTR cString = strdup(s.c_str());
-    ZeroMemory(&si, sizeof(si)); 									// fill this block with zeros
-    si.cb = sizeof(si);											// CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-    if (!CreateProcess(cString, 									// No module name (use command line)
-                       NULL,    									// Command line
-                       NULL,    									// Process handle not inheritable
-                       NULL,    									// Thread handle not inheritable
-                       FALSE,   									// Set handle inheritance to FALSE
+    ZeroMemory(&si, sizeof(si)); // fill this block with zeros
+    si.cb = sizeof(si);          // CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    if (!CreateProcess(cString,  // No module name (use command line)
+                       NULL,     // Command line
+                       NULL,     // Process handle not inheritable
+                       NULL,     // Thread handle not inheritable
+                       FALSE,    // Set handle inheritance to FALSE
                        CREATE_NEW_CONSOLE,
-                       NULL, 										// Use parent's environment block
-                       NULL, 										// Use parent's starting directory
-                       &si,  										// Pointer to STARTUPINFO structure
-                       &pi)  										// Pointer to PROCESS_INFORMATION structure
+                       NULL, // Use parent's environment block
+                       NULL, // Use parent's starting directory
+                       &si,  // Pointer to STARTUPINFO structure
+                       &pi)  // Pointer to PROCESS_INFORMATION structure
     )
     {
         printf("Changing of directory or opening file not successful!\n");
         return;
     }
-    WaitForSingleObject(pi.hProcess, INFINITE); 							// INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
+    WaitForSingleObject(pi.hProcess, INFINITE); // INFINITE // hProcess: The handle is used to specify the process in all functions that perform operations on the process object.
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
 }
 
 void openProcessInBackGround(const string &s)
 {
-	void kill(string s);
+    void kill(string s);
     ++n;
     status[n] = 1;
-    si[n] = {sizeof(STARTUPINFO)}; 									// lpStartupInfo // lpProcessInformation
-    pi[n];                         									// cpp string must be modified to use in c
-    ZeroMemory(&si[n], sizeof(si[n])); 									// fill this block with zeros
+    si[n] = {sizeof(STARTUPINFO)};     // lpStartupInfo // lpProcessInformation
+    pi[n];                             // cpp string must be modified to use in c
+    ZeroMemory(&si[n], sizeof(si[n])); // fill this block with zeros
     si[n].cb = sizeof(si[n]);
-    cString[n] = strdup(s.c_str());									// CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-    if (!CreateProcess(cString[n], 									// No module name (use command line)
-                       NULL,       									// Command line
-                       NULL,       									// Process handle not inheritable
-                       NULL,       									// Thread handle not inheritable
-                       FALSE,      									// Set handle inheritance to FALSE
+    cString[n] = strdup(s.c_str()); // CreateProcess(cString, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+    if (!CreateProcess(cString[n],  // No module name (use command line)
+                       NULL,        // Command line
+                       NULL,        // Process handle not inheritable
+                       NULL,        // Thread handle not inheritable
+                       FALSE,       // Set handle inheritance to FALSE
                        CREATE_NEW_CONSOLE,
-                       NULL,   										// Use parent's environment block
-                       NULL,   										// Use parent's starting directory
-                       &si[n], 										// Pointer to STARTUPINFO structure
-                       &pi[n]) 										// Pointer to PROCESS_INFORMATION structure
+                       NULL,   // Use parent's environment block
+                       NULL,   // Use parent's starting directory
+                       &si[n], // Pointer to STARTUPINFO structure
+                       &pi[n]) // Pointer to PROCESS_INFORMATION structure
     )
     {
-    	TerminateProcess(pi[n].hProcess, 0);
+        TerminateProcess(pi[n].hProcess, 0);
         CloseHandle(pi[n].hThread);
         CloseHandle(pi[n].hProcess);
         n--;
@@ -273,21 +273,44 @@ void time()
         int seconds, minutes, hours;
         string str;
 
-        time_t total_seconds = time(0);                          // storing total seconds
-        struct tm *ct = localtime(&total_seconds);              // getting values of seconds, minutes and hours
+        time_t total_seconds = time(0);            // storing total seconds
+        struct tm *ct = localtime(&total_seconds); // getting values of seconds, minutes and hours
 
         seconds = ct->tm_sec;
         minutes = ct->tm_min;
         hours = ct->tm_hour;
 
         //printing the result
-        
+
         if (seconds == sec_prev + 1 || (sec_prev == 59 && seconds == 0))
         {
-            cout << '\r';
-            cout << (hours < 10 ? "0" : "") << hours << ":" << (minutes < 10 ? "0" : "") << minutes << ":" << (seconds < 10 ? "0" : "") << seconds << " " << str;
-        }
+            system("cls");
+            cout << "       ,--.-----.--." << endl;
+            cout << "       |--|-----|--|" << endl;
+            cout << "       |--|     |--|" << endl;
+            cout << "       |  |-----|  |" << endl;
+            cout << "     _|--|     |--|_" << endl;
+            cout << "    /  |  |-----|  |  \\" << endl;
+            cout << "   /   \\__|-----|__/   \\" << endl;
+            cout << "  /   _____---_____   \\/\\" << endl;
+            cout << " /   /               \\   \\/" << endl;
+            cout << "{   /      ROLEX      \\   }" << endl;
+            cout << "|  {                   }  |-," << endl;
 
+            cout << (hours < 10 ? "|  |    0" : "|  |    ") << hours << (minutes < 10 ? " : 0" : " : ") << minutes
+                 << (seconds < 10 ? " : 0" : " : ") << seconds << "   |  | |" << endl;
+
+            cout << "|  {                   }  |-'" << endl;
+            cout << "{   \\                 /   }" << endl;
+            cout << " \\   `------___------'   /\\ " << endl;
+            cout << "  \\     _|-----|_     /\\/" << endl;
+            cout << "   \\   /  |-----|  \\   /" << endl;
+            cout << "    \\  |--|     |--|  /" << endl;
+            cout << "     --|  |-----|  |--" << endl;
+            cout << "       |--|     |--|" << endl;
+            cout << "       |--|-----|--|" << endl;
+            cout << "       `--'-----`--'" << endl;
+        }
         sec_prev = seconds;
     }
 }
@@ -302,27 +325,26 @@ void time()
 
 }*/
 
-void dir()
-{
-    char *buffer;
+// void dir()
+// {
+//      char *buffer;
 
-    // Get the current working directory:
-    
-    if ((buffer = _getcwd(NULL, 0)) == NULL)
-        perror("_getcwd error");
-    else
-    {
-        printf("%s ", buffer);
-        free(buffer);
-    }
-}
+//     // Get the current working directory:
+//     if ((buffer = _getcwd(NULL, 0)) == NULL)
+//         perror("_getcwd error");
+//     else
+//     {
+//         printf("%s ", buffer);
+//         free(buffer);
+//     }
+// }
 
 void listOfCurrent()
 {
     char *buffer;
 
     // Get the current working directory:
-    
+
     if ((buffer = _getcwd(NULL, 0)) == NULL)
         perror("_getcwd error");
     else
@@ -334,23 +356,26 @@ void listOfCurrent()
         switch (errno)
         {
         case ENOENT:
-            printf("Unable to locate the directory: %s\n", buffer);
+            system("dir");
             break;
         case EINVAL:
             printf("Invalid buffer.\n");
             break;
         default:
             printf("Unknown error.\n");
+            break;
         }
     }
     else
-        system("dir ");
+        system("dir");
+
+    free(buffer);
 }
 
 void list1()
-{ 	
-	//Track running process
-	
+{
+    //Track running process
+
     printf("\n");
     printf("----------------------------------------------------------------------------------------------------------------------------\n");
     printf("| Numbers            IdProcess                hProcess               Status                      Name   \n");
@@ -365,8 +390,8 @@ void list1()
 
 void cd(string s)
 {
-    LPSTR cString = strdup(s.c_str());                  			// pass your path in the function
-    int ch = chdir(cString);							// if the change of directory was successful it will print successful otherwise it will print not successful
+    LPSTR cString = strdup(s.c_str()); // pass your path in the function
+    int ch = chdir(cString);           // if the change of directory was successful it will print successful otherwise it will print not successful
     if (ch < 0)
     {
         openInBackOrFore("path background", cString);
@@ -377,11 +402,11 @@ void cd(string s)
     }
 }
 
-void runBat(string s) 
+void runBat(string s)
 {
-	void run(string command);
-	
-	ifstream file(s);
+    void run(string command);
+
+    ifstream file(s);
     if (file.is_open())
     {
         string line;
@@ -390,7 +415,8 @@ void runBat(string s)
             run(line);
         }
     }
-    else{
+    else
+    {
         cout << "File " << s << " do not exist in this directory\n";
     }
 }
@@ -403,16 +429,16 @@ void runExe(string command)
     string c1, c2;
     cc >> c1;
     cc >> c2;
-    if (c2.compare("background") == 0)
+    if (c2.compare("back") == 0)
     {
         openProcessInBackGround(c1);
     }
-    else if (c2.compare("foreground") == 0)
+    else if (c2.compare("fore") == 0)
     {
         openProcessInForeGround(c2);
     }
-    else 
+    else
     {
-    	printf("Illegal command! Add backgound or foreground mode!\n");
+        printf("Illegal command! Add backgound or foreground mode!\n");
     }
 }
