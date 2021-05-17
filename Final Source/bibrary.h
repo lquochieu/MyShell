@@ -70,7 +70,7 @@ void help()
          << "Change current directory to this path\n";
     cout.width(20);
     cout << left << "cd .."
-         << "Change parrent directory of current directory\n";
+         << "Change to the parrent directory of the current directory\n";
     cout.width(20);
     cout << left << "exit"
          << "Exit process\n";
@@ -370,7 +370,7 @@ void cd(string s)
     }
     else
     {
-        printf("chdir change of directory successful!");
+        printf("chdir change of directory successful!\n");
     }
 }
 
