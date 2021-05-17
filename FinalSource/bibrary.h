@@ -46,7 +46,7 @@ void help()
          << "Display clock\n";
     cout.width(20);
     cout << left << "countdown"
-         << "Display countdown clock, add foreground or background mode\n";
+         << "Display countdown clock, add fore or back mode\n";
     cout.width(20);
     cout << left << "dir"
          << "Display list of files in parent directory\n";
@@ -67,10 +67,10 @@ void help()
          << "Display list of processes\n";
     cout.width(20);
     cout << left << "notepad"
-         << "Open system notepad, add foreground or background mode, ex: notepad background\n";
+         << "Open system notepad, add fore or back mode, ex: notepad back\n";
     cout.width(20);
     cout << left << "path of *.exe"
-         << "Run *.exe file, add foreground or background mode\n";
+         << "Run *.exe file, add foreg or back mode\n";
     cout.width(20);
     cout << left << "resume 'ID'"
          << "Resume a stopping process\n";
