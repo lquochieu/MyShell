@@ -7,7 +7,11 @@ using namespace std;
 
 void WELCOME() 
 {
-    cout << "Welcome to the MyShell command line!\n";
+	cout << "-------------------------------------------------------------------\n";
+    cout << "               Welcome to the MyShell command line!\n";
+    cout << "-------------------------------------------------------------------\n";
+    cout << "            T.H.Binh, T.T.Hiep, L.H.Hoang, V.T.K.Huyen\n";
+    cout << "-------------------------------------------------------------------\n";
 } 
 
 void GOODBYE() 

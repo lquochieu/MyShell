@@ -30,56 +30,59 @@ void help()
 
     cout << "For more information on a specific command, type help command-name\n";
     cout.width(20);
-    cout << left << "[*.bat]"
+    cout << left << "1. [*.bat]"
          << "Read *.bat file and run list of command lines\n";
     cout.width(20);
-    cout << left << "cd .."
+    cout << left << "2. cd .."
          << "Change to the parrent directory of the current directory\n";
     cout.width(20);
-    cout << left << "cd 'path'"
+    cout << left << "3. cd 'path'"
          << "Change current directory to this path\n";
     cout.width(20);
-    cout << left << "clear"
+    cout << left << "4. clear"
          << "Clear tiny shell\n";
     cout.width(20);
-    cout << left << "clock"
+    cout << left << "5. date"
+         << "Display date\n";
+    cout.width(20);
+    cout << left << "6. time"
+         << "Display time\n";
+    cout.width(20);
+    cout << left << "7. clock"
          << "Display clock\n";
     cout.width(20);
-    cout << left << "countdown"
-         << "Display countdown clock, add fore or back mode\n";
+    cout << left << "8. countdown"
+         << "Display countdown clock, add fore or back mode, example: countdown fore, countdown back\n";
     cout.width(20);
-    cout << left << "dir"
+    cout << left << "9. dir"
          << "Display list of files in parent directory\n";
     cout.width(20);
-    cout << left << "exit"
+    cout << left << "10. exit"
          << "Exit process\n";
     cout.width(20);
-    cout << left << "help"
+    cout << left << "11. help"
          << "Provide Help information for Windows commands\n";
     cout.width(20);
-    cout << left << "kill -1"
+    cout << left << "12. kill -1"
          << "Kill all running processes\n";
     cout.width(20);
-    cout << left << "kill 'ID'"
+    cout << left << "13. kill 'ID'"
          << "Kill a running process\n";
     cout.width(20);
-    cout << left << "list"
+    cout << left << "14. list"
          << "Display list of processes\n";
     cout.width(20);
-    cout << left << "notepad"
-         << "Open system notepad, add fore or back mode, ex: notepad back\n";
+    cout << left << "15. notepad"
+         << "Open system notepad, add fore or back mode, example: notepad fore, notepad back\n";
     cout.width(20);
-    cout << left << "path of *.exe"
+    cout << left << "16. path of *.exe"
          << "Run *.exe file, add foreg or back mode\n";
     cout.width(20);
-    cout << left << "resume 'ID'"
+    cout << left << "17. resume 'ID'"
          << "Resume a stopping process\n";
     cout.width(20);
-    cout << left << "stop 'ID'"
+    cout << left << "18. stop 'ID'"
          << "Stop a running process\n";
-    cout.width(20);
-    cout << left << "time"
-         << "Display time\n";
 }
 
 void kill(string s)
@@ -264,80 +267,6 @@ void openProcessInBackGround(const string &s)
         return;
     }
 }
-
-void time()
-{
-    int sec_prev = 0;
-    while (1)
-    {
-        int seconds, minutes, hours;
-        string str;
-
-        time_t total_seconds = time(0);            // storing total seconds
-        struct tm *ct = localtime(&total_seconds); // getting values of seconds, minutes and hours
-
-        seconds = ct->tm_sec;
-        minutes = ct->tm_min;
-        hours = ct->tm_hour;
-
-        //printing the result
-
-        if (seconds == sec_prev + 1 || (sec_prev == 59 && seconds == 0))
-        {
-            system("cls");
-            cout << "       ,--.-----.--." << endl;
-            cout << "       |--|-----|--|" << endl;
-            cout << "       |--|     |--|" << endl;
-            cout << "       |  |-----|  |" << endl;
-            cout << "     _|--|     |--|_" << endl;
-            cout << "    /  |  |-----|  |  \\" << endl;
-            cout << "   /   \\__|-----|__/   \\" << endl;
-            cout << "  /   _____---_____   \\/\\" << endl;
-            cout << " /   /               \\   \\/" << endl;
-            cout << "{   /      ROLEX      \\   }" << endl;
-            cout << "|  {                   }  |-," << endl;
-
-            cout << (hours < 10 ? "|  |    0" : "|  |    ") << hours << (minutes < 10 ? " : 0" : " : ") << minutes
-                 << (seconds < 10 ? " : 0" : " : ") << seconds << "   |  | |" << endl;
-
-            cout << "|  {                   }  |-'" << endl;
-            cout << "{   \\                 /   }" << endl;
-            cout << " \\   `------___------'   /\\ " << endl;
-            cout << "  \\     _|-----|_     /\\/" << endl;
-            cout << "   \\   /  |-----|  \\   /" << endl;
-            cout << "    \\  |--|     |--|  /" << endl;
-            cout << "     --|  |-----|  |--" << endl;
-            cout << "       |--|     |--|" << endl;
-            cout << "       |--|-----|--|" << endl;
-            cout << "       `--'-----`--'" << endl;
-        }
-        sec_prev = seconds;
-    }
-}
-
-/*void time1(){
-    HANDLE h1;   
-    DWORD ThreadId;
-    h1 = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)time, NULL, 0, &ThreadId);
-    cin.get();
-    TerminateThread(h1, 0);
-    CloseHandle(h1);
-
-}*/
-
-// void dir()
-// {
-//      char *buffer;
-
-//     // Get the current working directory:
-//     if ((buffer = _getcwd(NULL, 0)) == NULL)
-//         perror("_getcwd error");
-//     else
-//     {
-//         printf("%s ", buffer);
-//         free(buffer);
-//     }
-// }
 
 void listOfCurrent()
 {
