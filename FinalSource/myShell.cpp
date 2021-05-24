@@ -147,6 +147,52 @@ void runable(string command)
     else if (command.find(".exe") != std::string::npos) {
     	runExe(command);
     }
+    
+    else if (command[0] == 'e' && command[1] == 'n' && command[2] == 'v'){
+    	char envname[command.length() - 4];
+    	if (command[3] == '\0') {
+    		read_env(NULL);
+		}	
+		else {
+			for (int i = 4; i <= command.length(); i ++) {
+				envname[i - 4] = command[i];
+			}
+			read_env(envname);
+		}
+	}
+	
+    else if (command.find("addenv ") != std::string::npos){
+		int a;
+		for (int i = 7; i< command.length(); i++){
+			if(command[i] == ' '){
+				a = i + 1;
+				break;
+			}
+		}
+		if (a) {
+			char envname[a-7];
+		char envvalue[command.length() - a + 1];
+		for (int i = 7; i < a - 1; i++){
+			envname[i - 7] = command[i];
+		}
+		envname[a - 8] = '\0';
+		for (int i = a; i <= command.length(); i ++){
+			envvalue[i-a] = command[i];
+		}
+		add_env(envname, envvalue);
+		}
+		else {
+			cout << "Illegal command!\n";
+		}
+	}
+	
+	else if (command.find("delenv ") != std::string::npos){
+		char envname[command.length() - 7];
+		for (int i = 7; i <= command.length(); i++){
+			envname[i - 7] = command[i];
+		}
+		del_env(envname);
+	}
 
     else
     {

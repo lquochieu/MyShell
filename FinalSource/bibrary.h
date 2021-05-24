@@ -83,6 +83,17 @@ void help()
     cout.width(20);
     cout << left << "18. stop 'ID'"
          << "Stop a running process\n";
+    cout.width(20);
+    cout << left << "19. env a"
+    	 << "Display the value of the environment variable a\n";
+    cout.width(20);
+    cout << left << "" << "If a = null, display all the environment variables and their values\n";
+    cout.width(20);
+    cout << left << "20. addenv a b"
+    	 << "Add the environment variable a with its name b\n";
+    cout.width(20);
+    cout << left << "21. delenv a"
+    	 << "Delete the environment variable a\n";
 }
 
 void kill(string s)
@@ -370,4 +381,75 @@ void runExe(string command)
     {
         printf("Illegal command! Add backgound or foreground mode!\n");
     }
+}
+
+void read_env(char *envname) {
+	int i = 0;
+	extern wchar_t **_wenviron;
+	char **s = environ;
+	HKEY hkey;
+	static BYTE value[1000000] ;
+    DWORD valsize = sizeof(value) ;
+    RegOpenKeyEx(HKEY_CURRENT_USER, "Environment", 0, KEY_ALL_ACCESS, &hkey);
+    if (envname == NULL) {
+    	for (; *s; s++) {
+  		char name[sizeof(*s)];
+  		int a;
+  		for (int j = 0; j < sizeof(*s); j ++) {
+  			if ((*s)[j] == '=') {
+  				a = j;
+  				break;
+			  }
+			  else {
+			  	name[j] = (*s)[j];
+			  }
+		  	}
+		  	name[a] = '\0';
+  		
+    		if (RegQueryValueEx(hkey, name, NULL, NULL, value, &valsize ) == 0) {
+    		i ++;
+    		cout << i;
+    		cout.width(3);
+			cout << left << "." << name << " = " << value << "\n";
+			}
+		}
+	}
+	else if (RegQueryValueEx(hkey, envname, NULL, NULL, value, &valsize ) == 0) {
+		cout << "The value of "<< envname<<" is: "<< value<<"\n";	
+	}
+	else {
+		cout << "There no variables has the name "<< envname<< "\n";
+	}
+  	
+	RegCloseKey(hkey);
+}
+
+void add_env(char* envname, char *envvalue) {
+	cout << "The environment variable "<< envname<< " is added\n";
+    HKEY hkey;
+	static BYTE value[1000000] ;
+    DWORD valsize = sizeof(value) ;                                  
+    RegOpenKeyEx(HKEY_CURRENT_USER,"Environment", 0, KEY_ALL_ACCESS, &hkey);
+	if(RegQueryValueEx(hkey, envname, NULL, NULL, value, &valsize) == 0){
+		char *name  = (char*) value;
+		strcat(name, ";");
+		strcat(name, envvalue);
+    	RegSetValueEx(hkey,envname,0,REG_SZ,(BYTE*) name, strlen(name));
+	}
+	else {
+		RegSetValueEx(hkey,envname,0,REG_SZ,(BYTE*) envvalue, strlen(envvalue));
+	}
+    RegCloseKey(hkey);
+}
+
+void del_env(char*envname){
+	HKEY hkey;
+	RegOpenKeyEx(HKEY_CURRENT_USER,"Environment", 0, KEY_ALL_ACCESS, &hkey);
+	if (RegDeleteValue(hkey, envname) == 0) {
+		cout << "The environment variable "<< envname<< " is deleted\n";
+	}
+	else {
+		cout << "There no variables has the name "<< envname<< "\n";
+	}
+	RegCloseKey(hkey);
 }
