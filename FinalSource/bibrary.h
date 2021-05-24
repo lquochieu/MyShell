@@ -85,7 +85,7 @@ void help()
          << "Stop a running process\n";
     cout.width(20);
     cout << left << "19. env a"
-    	 << "Display the value of the environment variable a\n";
+    	 << "Display the value of the environment variable a. Ex: env path\n";
     cout.width(20);
     cout << left << "" << "If a = null, display all the environment variables and their values\n";
     cout.width(20);
@@ -384,15 +384,15 @@ void runExe(string command)
 }
 
 void read_env(char *envname) {
-	int i = 0;
-	extern wchar_t **_wenviron;
-	char **s = environ;
+	#define MAX_NAME 16383
+	#define MAX_VALUE 100000
 	HKEY hkey;
-	static BYTE value[1000000] ;
+	BYTE value[MAX_VALUE] ;
     DWORD valsize = sizeof(value) ;
     RegOpenKeyEx(HKEY_CURRENT_USER, "Environment", 0, KEY_ALL_ACCESS, &hkey);
 
     if (envname == NULL) {
+<<<<<<< HEAD
     	for (; *s; (s)++) {
 
         string nm = "";
@@ -427,6 +427,19 @@ void read_env(char *envname) {
     		cout << i;
     		cout.width(3);
 			cout << left << "." << name << " = " << value << "\n";
+=======
+    	for (int i = 0; ; i ++) {
+    		TCHAR name[MAX_NAME];
+			DWORD namesz = MAX_NAME;
+			value[0] = '\0';
+  			DWORD valsize = MAX_VALUE;
+    		if (RegEnumValue(hkey, i, name, &namesz, NULL, NULL, value, &valsize) == 0) {
+				cout << (i < 9 ? "0":"") << i + 1 <<". " << name
+					 << " = " << value << "\n";
+			}
+			else {
+				break;
+>>>>>>> 135a1f94ce67c642318f856390f89edad5387cf6
 			}
 		}
         
@@ -444,7 +457,7 @@ void read_env(char *envname) {
 void add_env(char* envname, char *envvalue) {
 	cout << "The environment variable "<< envname<< " is added\n";
     HKEY hkey;
-	static BYTE value[1000000] ;
+	static BYTE value[100000] ;
     DWORD valsize = sizeof(value) ;                                  
     RegOpenKeyEx(HKEY_CURRENT_USER,"Environment", 0, KEY_ALL_ACCESS, &hkey);
 	if(RegQueryValueEx(hkey, envname, NULL, NULL, value, &valsize) == 0){
