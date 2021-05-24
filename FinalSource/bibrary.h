@@ -391,28 +391,45 @@ void read_env(char *envname) {
 	static BYTE value[1000000] ;
     DWORD valsize = sizeof(value) ;
     RegOpenKeyEx(HKEY_CURRENT_USER, "Environment", 0, KEY_ALL_ACCESS, &hkey);
+
     if (envname == NULL) {
-    	for (; *s; s++) {
-  		char name[sizeof(*s)];
-  		int a;
-  		for (int j = 0; j < sizeof(*s); j ++) {
-  			if ((*s)[j] == '=') {
-  				a = j;
-  				break;
-			  }
-			  else {
-			  	name[j] = (*s)[j];
-			  }
-		  	}
+    	for (; *s; (s)++) {
+
+        string nm = "";
+  		int a = 0;
+        // cout << *s << endl;
+  		// for (int j = 0; j < sizeof(*s); j ++) {
+        //     //   cout<< (*s)[j];
+  		// 	if ((*s)[j] == '=') {
+  		// 		a = j;
+  		// 		break;
+		// 	  }
+		// 	  else {
+		// 	  	name[j] = (*s)[j];
+		// 	  }
+		//   	}
+        //       cout << endl;
+        while((*s)[a]!= '=') {
+            nm += (*s)[a];
+            a++;
+        }
+               
+        char name[nm.size()];
+        for(int j = 0; j < nm.size(); ++j) {
+            name[j] = nm[j];
+        }
 		  	name[a] = '\0';
-  		
+
+              cout << name << endl;
     		if (RegQueryValueEx(hkey, name, NULL, NULL, value, &valsize ) == 0) {
+                // cout << name << endl;
     		i ++;
     		cout << i;
     		cout.width(3);
 			cout << left << "." << name << " = " << value << "\n";
 			}
 		}
+        
 	}
 	else if (RegQueryValueEx(hkey, envname, NULL, NULL, value, &valsize ) == 0) {
 		cout << "The value of "<< envname<<" is: "<< value<<"\n";	

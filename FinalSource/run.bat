@@ -1,4 +1,0 @@
-c:/windows/system32/notepad.exe back
-countdown back
-dir
-help
