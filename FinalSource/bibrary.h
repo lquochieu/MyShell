@@ -85,7 +85,7 @@ void help()
          << "Stop a running process\n";
     cout.width(20);
     cout << left << "19. env a"
-    	 << "Display the value of the environment variable a\n";
+    	 << "Display the value of the environment variable a. Ex: env path\n";
     cout.width(20);
     cout << left << "" << "If a = null, display all the environment variables and their values\n";
     cout.width(20);
@@ -384,33 +384,24 @@ void runExe(string command)
 }
 
 void read_env(char *envname) {
-	int i = 0;
-	extern wchar_t **_wenviron;
-	char **s = environ;
+	#define MAX_NAME 16383
+	#define MAX_VALUE 100000
 	HKEY hkey;
-	static BYTE value[1000000] ;
+	BYTE value[MAX_VALUE] ;
     DWORD valsize = sizeof(value) ;
     RegOpenKeyEx(HKEY_CURRENT_USER, "Environment", 0, KEY_ALL_ACCESS, &hkey);
     if (envname == NULL) {
-    	for (; *s; s++) {
-  		char name[sizeof(*s)];
-  		int a;
-  		for (int j = 0; j < sizeof(*s); j ++) {
-  			if ((*s)[j] == '=') {
-  				a = j;
-  				break;
-			  }
-			  else {
-			  	name[j] = (*s)[j];
-			  }
-		  	}
-		  	name[a] = '\0';
-  		
-    		if (RegQueryValueEx(hkey, name, NULL, NULL, value, &valsize ) == 0) {
-    		i ++;
-    		cout << i;
-    		cout.width(3);
-			cout << left << "." << name << " = " << value << "\n";
+    	for (int i = 0; ; i ++) {
+    		TCHAR name[MAX_NAME];
+			DWORD namesz = MAX_NAME;
+			value[0] = '\0';
+  			DWORD valsize = MAX_VALUE;
+    		if (RegEnumValue(hkey, i, name, &namesz, NULL, NULL, value, &valsize) == 0) {
+				cout << (i < 9 ? "0":"") << i + 1 <<". " << name
+					 << " = " << value << "\n";
+			}
+			else {
+				break;
 			}
 		}
 	}
@@ -427,7 +418,7 @@ void read_env(char *envname) {
 void add_env(char* envname, char *envvalue) {
 	cout << "The environment variable "<< envname<< " is added\n";
     HKEY hkey;
-	static BYTE value[1000000] ;
+	static BYTE value[100000] ;
     DWORD valsize = sizeof(value) ;                                  
     RegOpenKeyEx(HKEY_CURRENT_USER,"Environment", 0, KEY_ALL_ACCESS, &hkey);
 	if(RegQueryValueEx(hkey, envname, NULL, NULL, value, &valsize) == 0){
