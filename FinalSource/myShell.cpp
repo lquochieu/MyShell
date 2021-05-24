@@ -143,11 +143,6 @@ void runable(string command)
     else if (command.find(".bat") != std::string::npos) {
     	runBat(command);
     }
-
-    else if (command.find(".exe") != std::string::npos) {
-    	runExe(command);
-    }
-    
     else if (command[0] == 'e' && command[1] == 'n' && command[2] == 'v'){
     	char envname[command.length() - 4];
     	if (command[3] == '\0') {
@@ -193,7 +188,9 @@ void runable(string command)
 		}
 		del_env(envname);
 	}
-
+     else if (command.find(".exe") != std::string::npos) {
+    	runExe(command);
+    }
     else
     {
         printf("Illegal command!\n");

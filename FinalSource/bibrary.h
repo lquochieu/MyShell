@@ -392,42 +392,6 @@ void read_env(char *envname) {
     RegOpenKeyEx(HKEY_CURRENT_USER, "Environment", 0, KEY_ALL_ACCESS, &hkey);
 
     if (envname == NULL) {
-<<<<<<< HEAD
-    	for (; *s; (s)++) {
-
-        string nm = "";
-  		int a = 0;
-        // cout << *s << endl;
-  		// for (int j = 0; j < sizeof(*s); j ++) {
-        //     //   cout<< (*s)[j];
-  		// 	if ((*s)[j] == '=') {
-  		// 		a = j;
-  		// 		break;
-		// 	  }
-		// 	  else {
-		// 	  	name[j] = (*s)[j];
-		// 	  }
-		//   	}
-        //       cout << endl;
-        while((*s)[a]!= '=') {
-            nm += (*s)[a];
-            a++;
-        }
-               
-        char name[nm.size()];
-        for(int j = 0; j < nm.size(); ++j) {
-            name[j] = nm[j];
-        }
-		  	name[a] = '\0';
-
-              cout << name << endl;
-    		if (RegQueryValueEx(hkey, name, NULL, NULL, value, &valsize ) == 0) {
-                // cout << name << endl;
-    		i ++;
-    		cout << i;
-    		cout.width(3);
-			cout << left << "." << name << " = " << value << "\n";
-=======
     	for (int i = 0; ; i ++) {
     		TCHAR name[MAX_NAME];
 			DWORD namesz = MAX_NAME;
@@ -439,7 +403,6 @@ void read_env(char *envname) {
 			}
 			else {
 				break;
->>>>>>> 135a1f94ce67c642318f856390f89edad5387cf6
 			}
 		}
         
