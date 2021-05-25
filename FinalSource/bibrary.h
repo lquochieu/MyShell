@@ -76,7 +76,7 @@ void help()
          << "Open system notepad, add fore or back mode, example: notepad fore, notepad back\n";
     cout.width(20);
     cout << left << "16. path of *.exe"
-         << "Run *.exe file, add foreg or back mode\n";
+         << "Run *.exe file, add fore or back mode\n";
     cout.width(20);
     cout << left << "17. resume 'ID'"
          << "Resume a stopping process\n";
@@ -317,14 +317,33 @@ void list1()
     //Track running process
 
     printf("\n");
-    printf("----------------------------------------------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------------------------------------\n");
     printf("| Numbers            IdProcess                hProcess               Status                      Name   \n");
     for (int i = 1; i <= n; ++i)
     {
-        const char *a = (status[n] == 0) ? "stopping" : "Running ";
+    	DWORD dwExitCode;
+        GetExitCodeProcess(pi[i].hProcess, &dwExitCode);
+        if (dwExitCode != 259)
+        {
+            TerminateProcess(pi[i].hProcess, 0);
+            CloseHandle(pi[i].hThread);
+            CloseHandle(pi[i].hProcess);
+            for (int j = i; j < n; ++j)
+            {
+                status[j] = status[j + 1];
+                pi[j] = pi[j + 1];
+                si[j] = si[j + 1];
+                cString[j] = cString[j + 1];
+            }
+            n--;
+        }
+        else
+		{
+        const char *a = (status[i] == 0) ? "stopping" : "Running ";
         printf("|   %-19d%-26d%-20p%s          %s\n", i, pi[i].dwProcessId, pi[i].hProcess, a, cString[i]);
+        }
     }
-    printf("----------------------------------------------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------------------------------------\n");
     printf("\n");
 }
 
