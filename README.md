@@ -19,7 +19,7 @@ TinyShell is a basic shell written in C++ programming language. The way it works
 3. [Contribute](#Contribute)
 4. [Commands](#Commands)
     + [Mode](#Mode)
-    + [Process management commands](#Process)
+    + [Process management commands](#Process-management-commands-\(in-background-mode\))
     + [Excute *.bat and *.exe files](#Excute-*.bat-and-*.exe-files)
     + [Environment variable](#Environment-variables)
     + [Some special commands](#Some-special-commands)
@@ -97,7 +97,7 @@ Example:
 ### Environment variables
 
 #### 1. env 
-`Display the value of the user environment varialbe called`
+`Display the value of the user environment variable called`
 
 *Syntax:*
 ```
