@@ -19,6 +19,7 @@ using namespace std;
 
 const string EXIT_COMMAND = "exit";
 string currentDirectory;
+vector<string> history;
 
 void runable(string command)
 {
@@ -26,9 +27,29 @@ void runable(string command)
     void time1();
     void date();
     void time2();
+    history.push_back(command);
     if (command.compare("help") == 0)
     {
         help();
+    }
+
+    else if (command.compare("history") == 0)
+    {
+        int i = 0;
+        for (string s: history){
+            if (s != "history"){
+                i++;
+                cout << i << ". "<< s << endl;
+            }
+        }
+        if (i == 0)
+            cout << "Empty history!" << endl;
+    }
+
+    else if (command.compare("clean") == 0)
+    {
+        history.clear();
+        cout << "Your history has been cleaned thoroughly!" << endl;
     }
 
     else if (command.compare("exit") == 0)
