@@ -27,7 +27,6 @@ void runable(string command)
     void time1();
     void date();
     void time2();
-    history.push_back(command);
     if (command.compare("help") == 0)
     {
         help();
@@ -57,7 +56,8 @@ void runable(string command)
         GOODBYE;
         printf("Sending signal to kill all child processes ...\n");
         kill_All();
-        this_thread::sleep_for(chrono::milliseconds(800));
+        Sleep(1);
+        //this_thread::sleep_for(chrono::milliseconds(800));
         exit(0);
     }
 
@@ -215,7 +215,9 @@ void runable(string command)
     else
     {
         printf("Illegal command!\n");
+        command.append(" -> Illegal command");
     }
+    history.push_back(command);
 }
 
 void run(string command)
@@ -242,6 +244,7 @@ int main()
             GOODBYE();
             printf("Sending signal to kill all child processes ...\n");
             kill_All();
+            this_thread::sleep_for(chrono::milliseconds(1500));
             break;
         }
         else

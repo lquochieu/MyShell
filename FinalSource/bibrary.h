@@ -94,6 +94,12 @@ void help()
     cout.width(20);
     cout << left << "21. delenv a"
     	 << "Delete the environment variable a\n";
+    cout.width(20);
+    cout << left << "22. history"
+    	 << "Print all used commands\n";
+    cout.width(20);
+    cout << left << "23. Clean"
+    	 << "Clean the history\n";
 }
 
 void kill(string s)
